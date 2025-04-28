@@ -1,1 +1,20 @@
 @import "tailwindcss";
+
+.scrollbar-visible {
+  overflow-y: scroll; /* Always show the scrollbar */
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #555 #171717; /* Thumb color and track color */
+}
+
+.scrollbar-visible::-webkit-scrollbar {
+  width: 8px; /* For Chrome, Edge, and Safari */
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb {
+  background-color: #555; /* Thumb color */
+  border-radius: 4px;
+}
+
+.scrollbar-visible::-webkit-scrollbar-track {
+  background-color: #4e4e4e; /* Match the container background */
+}
