@@ -1,6 +1,7 @@
 import { FaRobot } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface Message {
   role: "user" | "assistant";
@@ -72,9 +73,22 @@ export default function App() {
                   message.role === "user"
                     ? "bg-red-500 text-white"
                     : "bg-[#222425] text-white"
-                }`}
+                } prose prose-invert prose-p:my-1 prose-ul:my-1 prose-ol:my-1`}
               >
-                {message.content}
+                <ReactMarkdown
+                  components={{
+                    p: ({ children }) => <p className="m-0">{children}</p>,
+                    ol: ({ children }) => (
+                      <ol className="m-0 list-decimal pl-4">{children}</ol>
+                    ),
+                    ul: ({ children }) => (
+                      <ul className="m-0 list-disc pl-4">{children}</ul>
+                    ),
+                    li: ({ children }) => <li className="m-0">{children}</li>,
+                  }}
+                >
+                  {message.content.trim()}
+                </ReactMarkdown>
               </div>
             </div>
           ))}
