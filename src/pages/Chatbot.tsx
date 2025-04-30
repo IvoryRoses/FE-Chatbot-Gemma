@@ -2,6 +2,7 @@ import { FaRobot } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { GoogleGenerativeAI, Content } from "@google/generative-ai";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,30 +14,52 @@ export default function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Replaced fetch call with Google AI integration
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
+    const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+    if (!apiKey) {
+      console.error("API key not found in environment variables");
+      return;
+    }
+
     try {
       setIsLoading(true);
-      // Add user message immediately
       const userMessage: Message = { role: "user", content: input };
       setMessages((prev) => [...prev, userMessage]);
-      setInput(""); // Clear input right away
+      setInput("");
 
-      const res = await fetch("http://localhost:8000/chat/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      // Google AI initialization and chat handling
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({
+        model: "gemini-2.0-flash-lite",
+        generationConfig: {
+          maxOutputTokens: 2048,
+          temperature: 0.7,
         },
-        body: JSON.stringify({ prompt: input }),
       });
 
-      const data = await res.json();
+      // Chat History
+      const chat = model.startChat({
+        history: messages.map((msg) => ({
+          role: msg.role === "assistant" ? "model" : "user", // Role Mapping
+          parts: [{ text: msg.content }],
+        })) as Content[],
+        generationConfig: {
+          maxOutputTokens: 2048,
+          temperature: 0.7,
+        },
+      });
 
-      // Add assistant response
+      // Generate response using Google AI
+      const result = await chat.sendMessage(input);
+      const response = await result.response;
+
+      // assistant message to use Google AI response
       const assistantMessage: Message = {
         role: "assistant",
-        content: data.response,
+        content: response.text(),
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
