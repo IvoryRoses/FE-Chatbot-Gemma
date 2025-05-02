@@ -1,8 +1,11 @@
-import { FaRobot } from "react-icons/fa";
-import { IoSend } from "react-icons/io5";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { GoogleGenerativeAI, Content } from "@google/generative-ai";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
+import { FaRobot } from "react-icons/fa";
+import { IoSend } from "react-icons/io5";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,6 +16,8 @@ export default function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   // Replaced fetch call with Google AI integration
   const handleSend = async () => {
@@ -78,7 +83,20 @@ export default function App() {
 
   return (
     <div className="fixed top-0 left-0 flex h-screen w-screen flex-col items-center justify-center bg-[#212121]">
-      <h1 className="mb-4 flex items-center text-2xl font-bold text-red-200">
+      <button
+        className="absolute top-5 left-5 items-center rounded bg-red-500 p-2 text-white hover:bg-red-600"
+        onClick={async () => {
+          try {
+            await signOut(auth);
+            navigate("/"); // or use navigate("/") if you're using useNavigate
+          } catch (error) {
+            console.error("Logout failed:", error);
+          }
+        }}
+      >
+        Log out
+      </button>
+      <h1 className="mb-4 flex items-center text-2xl font-bold text-red-500">
         J&S Chatbot <FaRobot size={50} className="ml-2" />
       </h1>
       <div className="relative flex h-[40rem] w-[30rem] flex-col rounded-md border border-[#4e4e4e] bg-[#171717] p-2">
