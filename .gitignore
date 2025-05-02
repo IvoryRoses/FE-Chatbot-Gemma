@@ -12,6 +12,7 @@ dist
 dist-ssr
 .env
 *.local
+src/firebase.tsx
 
 # Editor directories and files
 .vscode/*
@@ -23,4 +24,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-src/firebase.tsx
