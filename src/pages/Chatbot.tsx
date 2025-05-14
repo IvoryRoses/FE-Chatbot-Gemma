@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { FaRobot } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
+import Messenger from "../components/Messenger";
 
 interface Message {
   role: "user" | "assistant";
@@ -164,6 +165,9 @@ export default function App() {
             {isLoading ? "Wait" : "Send"} <IoSend className="ml-1" />
           </button>
         </div>
+      </div>
+      <div>
+        <Messenger />
       </div>
     </div>
   );
