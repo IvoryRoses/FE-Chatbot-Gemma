@@ -1,5 +1,6 @@
 import Signup from "./pages/Signup";
 import Chatbot from "./pages/Chatbot";
+import Messenger from "./pages/Messenger";
 import PrivateRoute from "./components/PrivateRoute"; // Make sure path is correct
 
 interface IRoute {
@@ -18,6 +19,16 @@ const routes: IRoute[] = [
     component: (
       <PrivateRoute>
         <Chatbot />
+      </PrivateRoute>
+    ),
+  },
+  {
+    id: 3,
+    title: "Messenger",
+    path: "/messenger",
+    component: (
+      <PrivateRoute>
+        <Messenger />
       </PrivateRoute>
     ),
   },
