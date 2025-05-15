@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { FaRobot } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
-import Messenger from "../components/Messenger";
+import Messenger from "./Messenger";
 
 interface Message {
   role: "user" | "assistant";

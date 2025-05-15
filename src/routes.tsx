@@ -1,6 +1,6 @@
 import Signup from "./pages/Signup";
 import Chatbot from "./pages/Chatbot";
-import PrivateRoute from "./components/PrivateRoute"; // Make sure path is correct
+import PrivateRoute from "./components/routes/PrivateRoute"; // Make sure path is correct
 
 interface IRoute {
   id: number;
